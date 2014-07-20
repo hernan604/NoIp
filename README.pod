@@ -1,0 +1,34 @@
+=head1 NAME
+
+NoIP - Update your site ip with noip api
+
+=head1 SYNOPSIS
+
+    use NoIp;
+    use HTTP::Tiny;
+    # First, get my current ip
+    my $ua          = HTTP::Tiny->new;
+    my $res         = $ua->get( "http://checkip.dyndns.org" );
+    my $ip          = $res->{ content };
+    ( $ip ) =  $ip  =~ m#.+body>Current IP Address: (.+)</body.+#g;
+    return if ! $ip || $ip eq "";
+
+    # now update my ip
+    my $noip = NoIp->new(
+        login       => '',
+        password    => '',
+        myip        => $ip,
+        hostname    => ''   
+    );
+    my $res = $noip->update_ip;
+    use DDP;
+    warn p $res;
+
+=head1 AUTHOR
+
+Hernan Lopes  (hernanlopes@gmail.com)
+
+=cut
+
+
+
